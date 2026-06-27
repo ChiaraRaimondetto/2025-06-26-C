@@ -20,8 +20,11 @@ class Model:
         for n in nodi:
             n.risultati ={}
             for i in range (min,max):
-                n.risultati["i"]=DAO.getResults(n.constructorId,i)
-
+                n.risultati[i]=DAO.getResults(n.constructorId,i)
+                #se voglio avere solo gli anni con il campionato
+                #campionati = DAO.getResults(n.constructorId, i)
+                #if len(campionati) > 0:
+                #    n.risultati[i] = campionati
             self.idMapN[n.constructorId]=n
         self._grafo.add_nodes_from(nodi)
         self.addEdges(min,max,self.idMapN)
@@ -64,12 +67,12 @@ class Model:
         if len(validi)<k:
             return [],0
         parziale=[]
-        self.ricorsione(parziale,k,validi,0,min,anno_max)
+        self.ricorsione(parziale,k,validi,min,anno_max)
 
 
         return self._percorsoSfigato,self._totSfiga
 
-    def ricorsione(self,parziale,k,conn,index,min,max):
+    def ricorsione(self,parziale,k,conn,min,max):
 
         if len(parziale)==k:
             sfiga=self.calcolaSfiga(parziale,min,max)
@@ -77,10 +80,11 @@ class Model:
                 self._totSfiga=sfiga
                 self._percorsoSfigato=copy.deepcopy(parziale)
             return
-        for i in range(index, len(conn)):
+        for i in range(len(conn)):
             parziale.append(conn[i])
-            self.ricorsione(parziale ,k, conn, i + 1, min, max)
+            self.ricorsione(parziale ,k, conn[i+1:], min, max)
             parziale.pop()
+
 
 
 
