@@ -24,8 +24,9 @@ class View(ft.UserControl):
         self._page.controls.append(self._title)
 
         #ROW 1
-        self._ddYear1 = ft.Dropdown(label="Year start", width=150)
-        self._ddYear2 = ft.Dropdown(label="Year end", width=150)
+        self._ddYear1 = ft.Dropdown(label="Year start", width=150,on_change=self._controller.readYear1)
+        self._ddYear2 = ft.Dropdown(label="Year end", width=150,on_change=self._controller.readYear2)
+        self._controller.fillDDYear()
 
         self._btnBuildGraph = ft.ElevatedButton(text="Crea grafo", on_click=self._controller.handleBuildGraph)
         self._btnPrintDetails = ft.ElevatedButton(text="Stampa dettagli", on_click=self._controller.handlePrintDetails)
